@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { Viewport } from "next";
-
+import TopNavigationBar from "@/components/TopNavigationBar";
 import "./globals.css";
 import { poppins, sf_pro } from "@/utils/fonts";
 
@@ -25,7 +25,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${sf_pro.variable} ${poppins.variable} bg-gray-800 antialiased text-white`}>{children}</body>
+      <body className={`${sf_pro.variable} ${poppins.variable} bg-gray-800 antialiased text-white`}>
+        <TopNavigationBar/>
+
+        {children}
+      </body>
     </html>
   );
 }

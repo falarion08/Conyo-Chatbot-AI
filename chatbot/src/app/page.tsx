@@ -13,11 +13,10 @@ export default function Home() {
 
   return (
     <>
-      <TopNavigationBar/>
       <div className="flex flex-row justify-evenly items-center px-5 h-[80vh] ">
       
       <div className=" max-w-[720px]">
-        <span className={` font-sfpro font-bold text-5xl text-start `}>ROBCHAT AI: Your <span className="underline text-green-400">personalized</span> Chatbot</span>
+        <span className={` font-sfpro font-bold text-5xl text-start `}>ROBCHAT AI: Your <span className=" text-green-400">personalized</span> Chatbot</span>
           <p className="mt-[2%] text-base font-sfpro tracking-wide">
             Introducing your friendly and smart AI chatbot, designed to be your go-to companion for both 
             conversations and small tasks. Whether you're in the mood for a chat or need help with quick, 
@@ -27,7 +26,7 @@ export default function Home() {
             enjoyable, and stress-free.
           </p>
             <div>
-            <Button as={Link} href="#" className="bg-[#087830] tracking-wide hover:bg-green-500 active:bg-[#087830] max-w-48 rounded-full font-poppins font-semibold mt-[5%]">Get Started</Button>
+            <Button as={Link} href="login" className="bg-[#087830] tracking-wide hover:bg-green-500 active:bg-[#087830] max-w-48 rounded-full font-poppins font-semibold mt-[5%]">Get Started</Button>
 
             </div>
         </div>
