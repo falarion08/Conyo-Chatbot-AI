@@ -19,7 +19,7 @@ export default function Home() {
         <span className={` font-sfpro font-bold text-5xl text-start `}><span className=" text-green-400">ROBCHAT AI</span>: Your personalized Chatbot</span>
           <p className="mt-[2%] text-base font-sfpro tracking-wide text-justify">
             Introducing your friendly and smart AI chatbot, designed to be your go-to companion for both 
-            conversations and small tasks. Whether you're in the mood for a chat or need help with quick, 
+            conversations and small tasks. Whether you‘re in the mood for a chat or need help with quick, 
             everyday tasks, this AI is always ready to assist. With a warm personality and a knack for 
             understanding your needs, it provides accurate responses, personalized advice, and seamless support. 
             Perfect for anyone who values efficiency with a human touch, your chatbot makes every interaction easy, 
