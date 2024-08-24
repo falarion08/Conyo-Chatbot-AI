@@ -1,4 +1,18 @@
-type User = {
-    username: string,
-    password:string,
-}
+import {z} from "zod"
+
+export const RegistrationFormSchema = z.object({
+    firstName: z.string().regex(new RegExp("^[a-zA-z ,.'-]{2,256}$"),{message:"Minimum of 2 characters and maximum of 256 characters"}),
+    lastName:z.string().regex(new RegExp("^[a-zA-z ,.'-]{2,256}$"),{message:"Minimum of 2 characters and maximum of 256 characters"}),
+    email: z.string().email({message:"Invalid email address"}),
+    password: z.string().regex(new RegExp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?.!@$%^&*-]).{8,64}$"),
+`Password must be: 
+- Minimum of 8 characters
+- Maximum of 64 characters
+- Must contain at least 1 lowercase english character
+- Must contain at least 1 uppercase english character
+- Must contain at least 1 special character`),
+    confirmPassword : z.string(),
+}).refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirm"], // path of error
+  });
