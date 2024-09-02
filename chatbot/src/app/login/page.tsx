@@ -23,7 +23,7 @@ export default function Login() {
                         <Button color="regularTheme" className="mt-[5%]" type="submit">Sign In</Button>
                     </form>
                 </div>
-                    <p className="font-sfpro tracking-wide absolute bottom-10 text-sm text-center w-full">Don't have an Account? <Link className=" text-blue-500 hover:text-blue-400 active:text-blue-500 underline" href={"/register"}>Create an Account</Link></p>
+                    <p className="font-sfpro tracking-wide absolute bottom-10 text-sm text-center w-full">Don’t have an Account? <Link className=" text-blue-500 hover:text-blue-400 active:text-blue-500 underline" href={"/register"}>Create an Account</Link></p>
             </div>
 
         </div>

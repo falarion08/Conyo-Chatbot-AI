@@ -1,8 +1,8 @@
 import {z} from "zod"
 
 export const RegistrationFormSchema = z.object({
-    firstName: z.string().regex(new RegExp("^[a-zA-z ,.'-]{2,256}$"),{message:"Minimum of 2 characters and maximum of 256 characters"}),
-    lastName:z.string().regex(new RegExp("^[a-zA-z ,.'-]{2,256}$"),{message:"Minimum of 2 characters and maximum of 256 characters"}),
+    firstName: z.string().regex(new RegExp("^[a-zA-z ,.'-]{2,256}$"),{message:"Check if name is correc"}),
+    lastName:z.string().regex(new RegExp("^[a-zA-z ,.'-]{2,256}$"),{message:"Check if name is correct"}),
     email: z.string().email({message:"Invalid email address"}),
     password: z.string().regex(new RegExp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?.!@$%^&*-]).{8,64}$"),
 `Password must be: 
