@@ -3,38 +3,45 @@
 import { Button, Checkbox, Label, TextInput, Tooltip } from "flowbite-react";
 import Link from "next/link";
 import { validate } from "./action";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { RegisterError } from "@/utils/types";
 import EmailSentToast from "@/components/EmailSentToast";
 
 export default function Page() {
 
-    const [isLoading, setIsLoading] = useState<Boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<RegisterError | undefined>();
     const [emailSent,setEmailSent] = useState<boolean>(false);
 
+    async function registerUserForm(e:FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        setIsLoading(true);
+        setEmailSent(false); 
 
-    async function registerUserForm(formData: FormData) {
+        const formData = new FormData(e.currentTarget);
 
         // Perform input validation on user input and initally register them as an unverified user on a successful registration
         const errResponse = await validate(formData);
-        
+
         if (errResponse !== undefined) {
             // Update error message depending on the errors of the user input
             setError(errResponse?.errors);
         } else {
             setError(undefined);
             setEmailSent(true); 
+
         }
+        setIsLoading(false); 
+
     }
 
     return (
-        <>
+        <div className="relative">
         {emailSent &&<EmailSentToast/>}
         <div className="min-h-[90vh] flex justify-center items-center">
             <div className="bg-slate-700 rounded-lg min-w-72 w-[27vw]  px-5 pt-10 pb-10 my-10">
                 <h1 className="font-bold font-sfpro text-xl text-center mb-2">Create an Account</h1>
-                <form action={registerUserForm} id="register-form" className="flex max-w-md flex-col gap-4">
+                <form onSubmit={registerUserForm} id="register-form" className="flex max-w-md flex-col gap-4">
                     <div className="flex gap-2">
                         <div className="flex-1">
                             <div className="mb-2 block">
@@ -87,10 +94,10 @@ Password must be:
                         <TextInput name="repeat-password" className="font-sfpro" id="repeat-password" type="password" min={8} shadow />
                     </div>
 
-                    <Button type="submit" color="regularTheme" className="mt-[5%]">Register new account</Button>
+                    <Button isProcessing={isLoading} disabled={isLoading} type="submit" color="regularTheme" className="mt-[5%]">{isLoading? `Submitting`:`Register new account`}</Button>
                 </form>
             </div>
         </div>
-        </>
+        </div>
     )
 }

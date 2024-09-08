@@ -4,7 +4,7 @@ import { RegistrationFormSchema } from "@/utils/definitions";
 import { RegisterError, User } from "@/utils/types";
 import { collection, addDoc, where, query, onSnapshot, DocumentData, getDocs, doc, setDoc, updateDoc } from "@firebase/firestore"
 import bycrpt from "bcrypt"
-import { uuid } from "uuidv4"
+import { v4 as uuidv4 } from "uuid"
 
 interface RegisterData {
     firstName: string;
@@ -55,7 +55,7 @@ export async function validate(formData: FormData) {
 
                 // Update verification token and token expiration when attempting to register again as an unverified user
                 await updateDoc(userRef,{
-                    verifyToken: await bycrpt.hash(uuid(), saltRounds),
+                    verifyToken: await bycrpt.hash(uuidv4(), saltRounds),
                     verifyTokenExpire: Date.now() + (1000 * 60 * 10)// 10 minutes
                 })
             }
@@ -74,7 +74,7 @@ async function createNewUser(userData: RegisterData, userID:string) {
         email: userData.email,
         password: await bycrpt.hash(userData.password, saltRounds),
         isVerified: false,
-        verifyToken: await bycrpt.hash(uuid(), saltRounds),
+        verifyToken: await bycrpt.hash(uuidv4(), saltRounds),
         verifyTokenExpire: Date.now() + (1000 * 60 * 10)// 10 minutes
     }
 
