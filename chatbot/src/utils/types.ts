@@ -6,3 +6,15 @@ export interface RegisterError {
         confirmPassword?: string[] | undefined;
         confirm?:string[] | undefined;
 } 
+
+export interface User {
+        id: string | undefined,
+        firstName:string,
+        lastName:string,
+        email:string,
+        password:string, 
+        isVerified:boolean, 
+        verifyToken:string | undefined,
+        verifyTokenExpire: number | undefined,
+        
+}

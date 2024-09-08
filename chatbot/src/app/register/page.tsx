@@ -2,17 +2,16 @@
 
 import { Button, Checkbox, Label, TextInput, Tooltip } from "flowbite-react";
 import Link from "next/link";
-import { Flowbite } from "flowbite-react";
-import customTheme from "@/utils/customTheme";
 import { validate } from "./action";
 import { useState } from "react";
 import { RegisterError } from "@/utils/types";
-
+import EmailSentToast from "@/components/EmailSentToast";
 
 export default function Page() {
 
     const [isLoading, setIsLoading] = useState<Boolean>(false);
     const [error, setError] = useState<RegisterError | undefined>();
+    const [emailSent,setEmailSent] = useState<boolean>(false);
 
 
     async function registerUserForm(formData: FormData) {
@@ -20,19 +19,21 @@ export default function Page() {
         
         console.log(errResponse);
 
-        setError(errResponse?.errors);
+        
         if (errResponse !== undefined) {
-
+            setError(errResponse?.errors);
         } else {
             setError(undefined);
+            setEmailSent(true); 
         }
     }
 
     return (
+        <>
+        {emailSent &&<EmailSentToast/>}
         <div className="min-h-[90vh] flex justify-center items-center">
             <div className="bg-slate-700 rounded-lg min-w-72 w-[27vw]  px-5 pt-10 pb-10 my-10">
                 <h1 className="font-bold font-sfpro text-xl text-center mb-2">Create an Account</h1>
-
                 <form action={registerUserForm} id="register-form" className="flex max-w-md flex-col gap-4">
                     <div className="flex gap-2">
                         <div className="flex-1">
@@ -90,5 +91,6 @@ Password must be:
                 </form>
             </div>
         </div>
+        </>
     )
 }
