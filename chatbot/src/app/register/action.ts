@@ -37,20 +37,23 @@ export async function validate(formData: FormData) {
         usersSnapshot.forEach((user) => {
             users.push(user.data());
         })
+        // Create a new unverified user when they are not found in the database
         if (users.length === 0) {
             const newUserRef = doc(collection(firestore, "Users"));
             const newUser = await createNewUser(validationResult.data,newUserRef.id);
             await setDoc(newUserRef, newUser);
         } else {
+            // Returns a warning that the user already is verified when trying to register the same email address.
             if (users[0].isVerified) {
                 let error: RegisterError = { email: ["Email Address Already Registered"] };
                 return { errors: error };
             }
             else {
-                console.log(users[0].id);
+
                 const userRef = doc(firestore,"Users",users[0].id);
                 const saltRounds = 13;
 
+                // Update verification token and token expiration when attempting to register again as an unverified user
                 await updateDoc(userRef,{
                     verifyToken: await bycrpt.hash(uuid(), saltRounds),
                     verifyTokenExpire: Date.now() + (1000 * 60 * 10)// 10 minutes

@@ -15,12 +15,12 @@ export default function Page() {
 
 
     async function registerUserForm(formData: FormData) {
+
+        // Perform input validation on user input and initally register them as an unverified user on a successful registration
         const errResponse = await validate(formData);
         
-        console.log(errResponse);
-
-        
         if (errResponse !== undefined) {
+            // Update error message depending on the errors of the user input
             setError(errResponse?.errors);
         } else {
             setError(undefined);

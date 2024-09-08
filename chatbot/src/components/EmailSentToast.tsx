@@ -10,6 +10,7 @@ export default function EmailSentToast() {
         <Toast className="absolute left-[40%]">
             <FaTelegramPlane className="h-5 w-5 text-cyan-600 dark:text-cyan-500" />
             <div className="pl-4 text-sm font-sfpro text-black">Verification email sent successfully.</div>
+            <Toast.Toggle />
         </Toast>
     )
 }
