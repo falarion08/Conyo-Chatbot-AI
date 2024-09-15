@@ -1,4 +1,5 @@
 'use server';
+import { sendEmail } from "@/utils/sendEmail";
 import { firestore } from "../../../dbconfig";
 import { RegistrationFormSchema } from "@/utils/definitions";
 import { RegisterError, User } from "@/utils/types";
@@ -16,6 +17,8 @@ interface RegisterData {
 
 export async function validate(formData: FormData) {
     const users: DocumentData[] = [];
+    var newUser: User | undefined = undefined
+
     // Validate fields
     const validationResult = RegistrationFormSchema.safeParse({
         firstName: formData.get("first-name"),
@@ -40,7 +43,7 @@ export async function validate(formData: FormData) {
         // Create a new unverified user when they are not found in the database
         if (users.length === 0) {
             const newUserRef = doc(collection(firestore, "Users"));
-            const newUser = await createNewUser(validationResult.data,newUserRef.id);
+            newUser = await createNewUser(validationResult.data, newUserRef.id);
             await setDoc(newUserRef, newUser);
         } else {
             // Returns a warning that the user already is verified when trying to register the same email address.
@@ -50,25 +53,28 @@ export async function validate(formData: FormData) {
             }
             else {
 
-                const userRef = doc(firestore,"Users",users[0].id);
-                const saltRounds = 13;
+                const userRef = doc(firestore, "Users", users[0].id);
+                newUser = await createNewUser(validationResult.data, users[0].id);
 
-                // Update verification token and token expiration when attempting to register again as an unverified user
-                await updateDoc(userRef,{
-                    verifyToken: await bycrpt.hash(uuidv4(), saltRounds),
-                    verifyTokenExpire: Date.now() + (1000 * 60 * 10)// 10 minutes
-                })
+                //Update credentials, verification token, and token expiration when attempting to register again as an unverified user
+                await setDoc(userRef, newUser)
             }
         }
+        if(newUser){
+            const verificationLink = `${process.env.PUBLIC_URL}/verify-email?verifyToken=${newUser.verifyToken}&id=${newUser.id}`
+            sendEmail(newUser.email,"Verify Your Account", "Verify your account today",verificationLink)
+        }
+
     }
+
 
 }
 
-async function createNewUser(userData: RegisterData, userID:string) {
+async function createNewUser(userData: RegisterData, userID: string) {
 
     const saltRounds = 13;
     const newUser: User = {
-        id:userID,
+        id: userID,
         firstName: userData.firstName,
         lastName: userData.lastName,
         email: userData.email,

@@ -8,13 +8,13 @@ export interface RegisterError {
 } 
 
 export interface User {
-        id: string | undefined,
+        id: string,
         firstName:string,
         lastName:string,
         email:string,
         password:string, 
         isVerified:boolean, 
-        verifyToken:string | undefined,
-        verifyTokenExpire: number | undefined,
+        verifyToken:string | null,
+        verifyTokenExpire: number | null,
         
 }
