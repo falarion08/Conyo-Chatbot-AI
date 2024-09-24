@@ -5,13 +5,13 @@ import { verificationEmailTemplate } from "@/components/VerificationEmailTemplat
 export const sendEmail = async (userEmail: string, subject: string, message: string, verificationLink: string) => {
     try {
         var transporter = nodemailer.createTransport({
-            host: process.env.NODEMAILER_HOST,
-            port: 2525,
+            host: process.env.NODEMAILER_HOST_DEPLOY!,
+            port: parseInt(process.env.NODEMAILER_PORT_DEPLOY!),
             auth: {
-                user: process.env.NODEMAILER_USER,
-                pass: process.env.NODEMAILER_PASS,
+              user: process.env.NODEMAILER_USER_DEPLOY!,
+              pass: process.env.NODEMAILER_PASS_DEPLOY!
             }
-        });
+          });
 
         let message = verificationEmailTemplate(verificationLink);
 
