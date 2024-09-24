@@ -2,7 +2,7 @@
 
 import { Toast } from "flowbite-react";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { HiX } from "react-icons/hi";
 import { Alert } from "flowbite-react";
 import { HiInformationCircle } from "react-icons/hi";
@@ -63,32 +63,38 @@ export default function Page() {
   }
 
   if (isLoading) {
-    return (<h1 className="flex justify-center items-center h-screen">Verifying Your Email. Please wait...</h1>)
+    return (
+      <Suspense>
+        <h1 className="flex justify-center items-center h-screen">Verifying Your Email. Please wait...</h1>
+      </Suspense>
+    )
   } else {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="w-full max-w-md">
-          {verified && (
-            <Alert color="info" icon={HiInformationCircle}>
-              <span className="font-medium">Info alert!</span> Your email has been verified successfully.
-              
-              <Link href={"/login"}><button
-                type="button"
-                className="mr-2 inline-flex items-center rounded-lg bg-cyan-700 px-3 py-1.5 text-center text-xs font-medium text-white hover:bg-cyan-800 focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-800 dark:hover:bg-cyan-900"
-              >
-                Return To Login Screen
-              </button>
-              </Link>
-            </Alert>
-            
-          )}
-          {error && (
-            <Alert color="failure" icon={HiInformationCircle}>
-              <span className="font-medium">Info alert!</span> Email Verification failed. Your verification token  is invalid or expired
-            </Alert>
-          )}
+      <Suspense>
+        <div className="flex justify-center items-center h-screen">
+          <div className="w-full max-w-md">
+            {verified && (
+              <Alert color="info" icon={HiInformationCircle}>
+                <span className="font-medium">Info alert!</span> Your email has been verified successfully.
+
+                <Link href={"/login"}><button
+                  type="button"
+                  className="mr-2 inline-flex items-center rounded-lg bg-cyan-700 px-3 py-1.5 text-center text-xs font-medium text-white hover:bg-cyan-800 focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-800 dark:hover:bg-cyan-900"
+                >
+                  Return To Login Screen
+                </button>
+                </Link>
+              </Alert>
+
+            )}
+            {error && (
+              <Alert color="failure" icon={HiInformationCircle}>
+                <span className="font-medium">Info alert!</span> Email Verification failed. Your verification token  is invalid or expired
+              </Alert>
+            )}
+          </div>
         </div>
-      </div>
+      </Suspense>
     )
   }
 
